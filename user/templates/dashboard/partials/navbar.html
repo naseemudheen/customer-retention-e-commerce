@@ -1,0 +1,25 @@
+<nav class="navbar navbar-expand-lg navbar-light  navbar-custom w-100">
+    <button class="navbar-toggler d-block d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Collapse button and other nav items should be here if there are any -->
+
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
+        <!-- Profile section -->
+        <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="https://github.com/mdo.png" alt="Profile" width="30" height="30" class="rounded-circle">
+                    {{ request.user }}
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
+                    <li><a class="dropdown-item" href="#">New project...</a></li>
+                    <li><a class="dropdown-item" href="#">Settings</a></li>
+                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <li><a class="dropdown-item" href="{% url 'user:logout' %}"">Sign out</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>

@@ -1,0 +1,29 @@
+.messages {
+    padding: 0;
+    height: 2rem;
+    margin-bottom: 5%;
+    font-size: smaller;
+}
+
+
+.errorlist{
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+    
+.alert {
+    position: relative;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+}
+.ftco-section {
+    padding: 3em 0;
+}
+.login-wrap {
+    min-height: 29rem;
+    position: relative;
+    background: #fff;
+}
