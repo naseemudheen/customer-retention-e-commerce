@@ -1,0 +1,457 @@
+{% extends 'client/base.html' %}
+{% load static %}
+{% block content %}
+<div class="mt-5 pt-5">
+    <header>
+        <h1 class="mb-4 ms-5 text-center">
+            E-commerce Churn Detection API Documentation
+        </h1>
+    </header>
+
+    <div class="container-fluid mt-5">
+        <div class="row">
+            <!-- Sidebar Section -->
+            <div class="col-md-3">
+                <div class="position-sticky" style="top: 20px">
+                    <div class="p-3 bg-light rounded">
+                        <h4 class="fst-italic">Documentation</h4>
+                        <ul class="nav flex-column">
+                            <li class="nav-item mb-1">
+                                <a href="#introduction" class="nav-link p-0 text-muted">Introduction</a>
+                            </li>
+                            <li class="nav-item mb-1">
+                                <a href="#authentication" class="nav-link p-0 text-muted">Authentication</a>
+                            </li>
+                            <li class="nav-item mb-1">
+                                <a href="#api_endpoints" class="nav-link p-0 text-muted">API Endpoints</a>
+                                <ul class="nav flex-column ms-3">
+                                    <li class="nav-item mb-1">
+                                        <a href="#single_prediction" class="nav-link p-0 text-muted">Single
+                                            Prediction</a>
+                                    </li>
+                                    <li class="nav-item mb-1">
+                                        <a href="#bulk_prediction" class="nav-link p-0 text-muted">Bulk Prediction</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item mb-1">
+                                <a href="#examples" class="nav-link p-0 text-muted">Usage Examples</a>
+                                <ul class="nav flex-column ms-3">
+                                    <li class="nav-item mb-1">
+                                        <a href="#example_single" class="nav-link p-0 text-muted">Single Prediction
+                                            Example</a>
+                                    </li>
+                                    <li class="nav-item mb-1">
+                                        <a href="#example_bulk" class="nav-link p-0 text-muted">Bulk Prediction
+                                            Example</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Section -->
+            <div class="col-md-9 documentation">
+                <section id="introduction" class="my-1">
+                    <h2>Introduction</h2>
+                    <p class="me-5">
+                        Welcome to the comprehensive documentation for Custkeep's E-commerce
+                        Churn Detection API. This guide is designed to assist developers and
+                        business analysts in understanding how to seamlessly integrate and
+                        optimally use our advanced API. By leveraging sophisticated machine
+                        learning algorithms, our API provides powerful insights into
+                        customer behavior, predicting potential churn to help you strategize
+                        more effectively. Whether you are aiming to enhance customer
+                        engagement or reduce churn rates, our documentation provides all the
+                        necessary details to integrate our API with your existing systems.
+                    </p>
+                    <p>
+                        In this documentation, you will find detailed sections on
+                        authentication, request and response formats, and descriptions of
+                        both single and bulk prediction endpoints. We include example
+                        requests to demonstrate how to structure your calls to the API and
+                        expected responses to help you understand the data you will receive.
+                        For ease of use, we also detail the specific data fields required
+                        for submitting customer information and explain how to interpret the
+                        predictions returned by our API. Our goal is to ensure that you can
+                        quickly integrate our churn prediction capabilities into your
+                        e-commerce platform, enabling you to take proactive steps towards
+                        retaining your valued customers.
+                    </p>
+                </section>
+
+                <section id="authentication" class="my-5">
+                    <h2>Authentication</h2>
+                    <p>All API requests require the use of a token for authentication. The token must be included in the
+                        header of each request.</p>
+                    <pre><code class="hljs">Authorization: Token "YOUR_API_KEY" </code></pre>
+                </section>
+
+                <section id="api_endpoints" class="my-5">
+                    <!-- API Endpoints -->
+                    <h2>API Endpoints</h2>
+
+                    <!-- Single Prediction -->
+                    <h3 id="single_prediction">1. Single Prediction</h3>
+                    <p><strong>Endpoint:</strong> <code>POST http://localhost:8000/api/predict/</code></p>
+                    <p><strong>Header:</strong></p>
+                    <pre><code>Content-Type: application/json
+Authorization: Token "YOUR_API_KEY"</code></pre>
+                    <p><strong>Request Body:</strong></p>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Parameter</th>
+                                <th>Data Type</th>
+                                <th>Choices/Validation</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>customer_id</td>
+                                <td>Char</td>
+                                <td>-</td>
+                                <td>Unique identifier for the customer.</td>
+                            </tr>
+                            <tr>
+                                <td>tenure</td>
+                                <td>Integer</td>
+                                <td>-</td>
+                                <td>Number of years the customer has been active.</td>
+                            </tr>
+                            <tr>
+                                <td>preferred_login_device</td>
+                                <td>Char</td>
+                                <td>Mobile, Computer</td>
+                                <td>Customer's preferred device for logging into the platform.</td>
+                            </tr>
+                            <tr>
+                                <td>city_tier</td>
+                                <td>Integer</td>
+                                <td>1,2,3</td>
+                                <td>City classification tier based on size and economic indicators.</td>
+                            </tr>
+                            <tr>
+                                <td>warehouse_to_home</td>
+                                <td>Float</td>
+                                <td>-</td>
+                                <td>Distance from warehouse to customer's home in kilometers.</td>
+                            </tr>
+                            <tr>
+                                <td>preferred_payment_mode</td>
+                                <td>Char</td>
+                                <td>Debit Card, COD, Credit Card, E wallet, UPI</td>
+                                <td>Preferred method of payment by the customer.</td>
+                            </tr>
+                            <tr>
+                                <td>gender</td>
+                                <td>Char</td>
+                                <td>Female, Male</td>
+                                <td>Gender of the customer.</td>
+                            </tr>
+                            <tr>
+                                <td>hour_spent_on_app</td>
+                                <td>Float</td>
+                                <td>-</td>
+                                <td>Average number of hours the customer spends on the app daily.</td>
+                            </tr>
+                            <tr>
+                                <td>number_of_device_registered</td>
+                                <td>Integer</td>
+                                <td>-</td>
+                                <td>Total number of devices registered to the customer's account.</td>
+                            </tr>
+                            <tr>
+                                <td>prefered_order_cat</td>
+                                <td>Char</td>
+                                <td>Laptop & Accessory, Fashion, Mobile, Others, Grocery</td>
+                                <td>Main category of items the customer prefers to order.</td>
+                            </tr>
+                            <tr>
+                                <td>satisfaction_score</td>
+                                <td>Integer</td>
+                                <td>-</td>
+                                <td>Customer's overall satisfaction score with the service.</td>
+                            </tr>
+                            <tr>
+                                <td>marital_status</td>
+                                <td>Char</td>
+                                <td>Single, Divorced, Married</td>
+                                <td>Marital status of the customer.</td>
+                            </tr>
+                            <tr>
+                                <td>number_of_address</td>
+                                <td>Integer</td>
+                                <td>-</td>
+                                <td>Number of addresses registered under the customer's account.</td>
+                            </tr>
+                            <tr>
+                                <td>complain</td>
+                                <td>Integer</td>
+                                <td>0 (No), 1 (Yes)</td>
+                                <td>Indicates if the customer has made any complaints.</td>
+                            </tr>
+                            <tr>
+                                <td>order_amount_hike_from_last_year</td>
+                                <td>Float</td>
+                                <td>-</td>
+                                <td>Percentage increase in the customer's order amount compared to the previous year.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>coupon_used</td>
+                                <td>Float</td>
+                                <td>-</td>
+                                <td>Number of coupons used by the customer during transactions.</td>
+                            </tr>
+                            <tr>
+                                <td>order_count</td>
+                                <td>Integer</td>
+                                <td>-</td>
+                                <td>Total number of orders placed by the customer.</td>
+                            </tr>
+                            <tr>
+                                <td>day_since_last_order</td>
+                                <td>Float</td>
+                                <td>-</td>
+                                <td>Number of days since the customer last placed an order.</td>
+                            </tr>
+                            <tr>
+                                <td>cashback_amount</td>
+                                <td>Integer</td>
+                                <td>-</td>
+                                <td>Total cashback amount received by the customer on purchases.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Bulk Prediction -->
+                    <h3 id="bulk_prediction">2. Bulk Prediction</h3>
+                    <p><strong>Endpoint:</strong> <code>POST http://localhost:8000/api/bulk-predict/</code></p>
+                    <pre><code>Content-Type: application/json
+Authorization: Token "YOUR_API_KEY"</code></pre>
+                    <p><strong>Request Body:</strong></p>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Parameter</th>
+                                <th>Data Type</th>
+                                <th>Choices/Validation</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>customer_id</td>
+                                <td>Char</td>
+                                <td>-</td>
+                                <td>Unique identifier for the customer.</td>
+                            </tr>
+                            <tr>
+                                <td>tenure</td>
+                                <td>Integer</td>
+                                <td>-</td>
+                                <td>Number of years the customer has been active.</td>
+                            </tr>
+                            <tr>
+                                <td>preferred_login_device</td>
+                                <td>Char</td>
+                                <td>Mobile, Computer</td>
+                                <td>Customer's preferred device for logging into the platform.</td>
+                            </tr>
+                            <tr>
+                                <td>city_tier</td>
+                                <td>Integer</td>
+                                <td>1,2,3</td>
+                                <td>City classification tier based on size and economic indicators.</td>
+                            </tr>
+                            <tr>
+                                <td>warehouse_to_home</td>
+                                <td>Float</td>
+                                <td>-</td>
+                                <td>Distance from warehouse to customer's home in kilometers.</td>
+                            </tr>
+                            <tr>
+                                <td>preferred_payment_mode</td>
+                                <td>Char</td>
+                                <td>Debit Card, COD, Credit Card, E wallet, UPI</td>
+                                <td>Preferred method of payment by the customer.</td>
+                            </tr>
+                            <tr>
+                                <td>gender</td>
+                                <td>Char</td>
+                                <td>Female, Male</td>
+                                <td>Gender of the customer.</td>
+                            </tr>
+                            <tr>
+                                <td>hour_spent_on_app</td>
+                                <td>Float</td>
+                                <td>-</td>
+                                <td>Average number of hours the customer spends on the app daily.</td>
+                            </tr>
+                            <tr>
+                                <td>number_of_device_registered</td>
+                                <td>Integer</td>
+                                <td>-</td>
+                                <td>Total number of devices registered to the customer's account.</td>
+                            </tr>
+                            <tr>
+                                <td>prefered_order_cat</td>
+                                <td>Char</td>
+                                <td>Laptop & Accessory, Fashion, Mobile, Others, Grocery</td>
+                                <td>Main category of items the customer prefers to order.</td>
+                            </tr>
+                            <tr>
+                                <td>satisfaction_score</td>
+                                <td>Integer</td>
+                                <td>-</td>
+                                <td>Customer's overall satisfaction score with the service.</td>
+                            </tr>
+                            <tr>
+                                <td>marital_status</td>
+                                <td>Char</td>
+                                <td>Single, Divorced, Married</td>
+                                <td>Marital status of the customer.</td>
+                            </tr>
+                            <tr>
+                                <td>number_of_address</td>
+                                <td>Integer</td>
+                                <td>-</td>
+                                <td>Number of addresses registered under the customer's account.</td>
+                            </tr>
+                            <tr>
+                                <td>complain</td>
+                                <td>Integer</td>
+                                <td>0 (No), 1 (Yes)</td>
+                                <td>Indicates if the customer has made any complaints.</td>
+                            </tr>
+                            <tr>
+                                <td>order_amount_hike_from_last_year</td>
+                                <td>Float</td>
+                                <td>-</td>
+                                <td>Percentage increase in the customer's order amount compared to the previous year.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>coupon_used</td>
+                                <td>Float</td>
+                                <td>-</td>
+                                <td>Number of coupons used by the customer during transactions.</td>
+                            </tr>
+                            <tr>
+                                <td>order_count</td>
+                                <td>Integer</td>
+                                <td>-</td>
+                                <td>Total number of orders placed by the customer.</td>
+                            </tr>
+                            <tr>
+                                <td>day_since_last_order</td>
+                                <td>Float</td>
+                                <td>-</td>
+                                <td>Number of days since the customer last placed an order.</td>
+                            </tr>
+                            <tr>
+                                <td>cashback_amount</td>
+                                <td>Integer</td>
+                                <td>-</td>
+                                <td>Total cashback amount received by the customer on purchases.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </section>
+
+                <section id="examples" class="my-5">
+                    <h2>Usage Examples</h2>
+                    <h3 id="example_single">1.Single Prediction</h3>
+                    <p><strong>Example</strong></p>
+                    <pre><code>{
+                        "customer_id": "50001",
+                        "tenure": 18.0,
+                        "preferred_login_device": "Mobile",
+                        "city_tier": 1,
+                        "warehouse_to_home": 6.0,
+                        "preferred_payment_mode": "Debit Card",
+                        "gender": "Female",
+                        "hour_spent_on_app": 9.0,
+                        "number_of_device_registered": 8,
+                        "prefered_order_cat": "Laptop & Accessory",
+                        "satisfaction_score": 2,
+                        "marital_status": "Single",
+                        "number_of_address": 19,
+                        "complain":0,
+                        "order_amount_hike_from_last_year": 11.0,
+                        "coupon_used": 0.0,
+                        "order_count": 9.0,
+                        "day_since_last_order": 1.0,
+                        "cashback_amount": 2500
+                    }</code></pre>
+                    <h3 id="example_bulk">2.Bulk Prediction</h3>
+                    <p><strong>Example</strong></p>
+
+                    <pre><code>[ {
+                        "customer_id": "50001",
+                        "tenure": 18.0,
+                        "preferred_login_device": "Mobile",
+                        "city_tier": 1,
+                        "warehouse_to_home": 6.0,
+                        "preferred_payment_mode": "Debit Card",
+                        "gender": "Female",
+                        "hour_spent_on_app": 9.0,
+                        "number_of_device_registered": 8,
+                        "prefered_order_cat": "Laptop & Accessory",
+                        "satisfaction_score": 2,
+                        "marital_status": "Single",
+                        "number_of_address": 19,
+                        "complain":0,
+                        "order_amount_hike_from_last_year": 11.0,
+                        "coupon_used": 0.0,
+                        "order_count": 9.0,
+                        "day_since_last_order": 1.0,
+                        "cashback_amount": 2500
+                    },
+                    {
+                        "customer_id": "50001",
+                        "tenure": 18.0,
+                        "preferred_login_device": "Mobile",
+                        "city_tier": 1,
+                        "warehouse_to_home": 6.0,
+                        "preferred_payment_mode": "Debit Card",
+                        "gender": "Female",
+                        "hour_spent_on_app": 9.0,
+                        "number_of_device_registered": 8,
+                        "prefered_order_cat": "Laptop & Accessory",
+                        "satisfaction_score": 2,
+                        "marital_status": "Single",
+                        "number_of_address": 19,
+                        "complain":0,
+                        "order_amount_hike_from_last_year": 11.0,
+                        "coupon_used": 0.0,
+                        "order_count": 9.0,
+                        "day_since_last_order": 1.0,
+                        "cashback_amount": 2500
+                    }]</code></pre>
+                </section>
+                <section id="support" class="my-5">
+                    <h2>Support</h2>
+                    <p>If you encounter any issues or have questions about using the E-commerce Churn Detection API, our support team is here to help. We are committed to providing you with the assistance you need to seamlessly integrate and effectively use our API.</p>
+                    
+                    <h3>Contacting Support</h3>
+                    <p>For technical support or specific queries, please reach out to us through the following channels:</p>
+                    <ul>
+                        <li><strong>Email:</strong> <a href="mailto:22370038@pondiuni.ac.in">22370038@pondiuni.ac.in</a> - Get in touch with our support team directly for assistance.</li>
+                        <li><strong>Phone:</strong> +91-8089 92 1204 - Available Monday to Friday from 9 AM to 5 PM (EST).</li>
+                    </ul>
+                
+                    <h3>Feedback</h3>
+                    <p>We value your feedback to improve our API and support services. If you have suggestions or feedback, please let us know via our <a href="mailto:22370038@pondiuni.ac.in">feedback email</a> or through our customer survey.</p>
+                </section>
+                
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

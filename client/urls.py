@@ -6,4 +6,6 @@ app_name = "client"
 
 urlpatterns = [
     path('', HomePage.as_view(), name="home"),
+    path('docs', DocumentationView.as_view(), name="documentation"),
+
 ]

@@ -8,3 +8,11 @@ class HomePage(View):
     
     def get(self,request):
         return render(request,self.template_name)
+    
+    
+
+class DocumentationView(View):
+    template_name = 'client/docs.html'
+    
+    def get(self,request):
+        return render(request,self.template_name)

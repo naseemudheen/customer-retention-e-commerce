@@ -31,9 +31,9 @@ class LoginPageView(View):
                 # return render(request,'dashboard/index.html')
                 login(request, user)
                 if user.is_superuser:
-                    return redirect("/dashboard/")
+                    return redirect("/admin/")
                 else:
-                    return redirect("/")
+                    return redirect("/dashboard/")
             else:
                 messages.warning(request,f'Invalid Email/Password')
                 return redirect('user:login')

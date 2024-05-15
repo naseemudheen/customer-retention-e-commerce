@@ -85,6 +85,25 @@ def transform_data(data):
 
 class PredictView(APIView):
     def post(self, request):
+        serializer = CustomerPredictionSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        customer_prediction = serializer.save(
+            current_date=date.isoformat(date.today()), user=request.user
+        )
+        model_input = transform_data(request.data)
+
+        # Convert dictionary to DataFrame
+        model_input_df = pd.DataFrame(model_input)
+        predprob = model.predict_proba(model_input_df)
+
+        customer_prediction.predicted_churn_risk = churn_risk(predprob[0, 1])
+        customer_prediction.predicted_churn_probability = predprob[0, 1]
+        customer_prediction.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class BulkPredictView(APIView):
+    def post(self, request):
         for data in request.data:
             serializer = CustomerPredictionSerializer(data=data)
             serializer.is_valid(raise_exception=True)

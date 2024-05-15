@@ -242,7 +242,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
-EMAIL_HOST_USER = "mail.nextinno@gmail.com"
-EMAIL_HOST_PASSWORD = "opyhqkzdmghxeime"
+EMAIL_HOST_USER = "mail.tefora@gmail.com"
+EMAIL_HOST_PASSWORD = "dveryxsoqhqhxpde"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
