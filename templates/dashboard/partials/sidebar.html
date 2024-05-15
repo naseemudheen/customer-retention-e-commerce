@@ -1,39 +1,67 @@
-<!-- myapp/templates/sidebar.html -->
 {% load static %}
-<!-- Sidebar starts below the navbar -->
-
-<div class="col-md-3 col-xl-2 d-none d-md-block sidebar" style="background-color: #242424;"> <!-- Make sidebar hidden on xs to sm devices -->
-    <div class="d-flex flex-column align-items-center align-items-sm-start pt-3 text-white min-vh-100">
-        <div class="pb-3 mb-3" style="width: 100%; text-align: center;"> <!-- Logo area -->
-            <img src="{% static 'images/logo.png' %}" alt="Logo" class="img-fluid" style="max-height: 60px;"> <!-- Logo file -->
+<div id="bdSidebar" class="d-flex flex-column flex-shrink-0 p-3 bg-dark text-white offcanvas-md offcanvas-start">
+    <p>Hi {{ name }},</p>
+    <hr />
+    <div class="payment">
+        <div>Credits ₹{{balance}}</div>
+        <div>
+           <a href="{% url 'dashboard:payment' %}"> <button>Add credits</button></a>
         </div>
-        <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
-            <li class="nav-item">
-            <a href="#" class="nav-link align-middle px-3"> <!-- Increased padding -->
-                <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Home</span>
+    </div>
+    <ul class="mynav nav nav-pills flex-column mb-auto">
+        <li class="nav-item mb-1">
+            <a href="{% url 'client:home' %}">
+                <i class="fa-regular fa-newspaper"></i>
+                Home
             </a>
-            </li>
-            <li>
-            <a href="#submenu1" data-bs-toggle="collapse" class="nav-link px-3 align-middle">
-                <i class="fs-4 bi-speedometer2"></i> <span class="ms-1 d-none d-sm-inline">Dashboard</span> </a>
-            <ul class="collapse nav flex-column ms-1" id="submenu1" data-bs-parent="#menu">
-                <li class="w-100">
-                <a href="#" class="nav-link px-3"> <span class="d-none d-sm-inline">Item</span> 1 </a>
-                </li>
-                <li>
-                <a href="#" class="nav-link px-3"> <span class="d-none d-sm-inline">Item</span> 2 </a>
-                </li>
-            </ul>
-            </li>
-            <li>
-            <a href="#" class="nav-link px-3 align-middle">
-                <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Orders</span></a>
-            </li>
-            <li>
-            <a href="#" class="nav-link px-3 align-middle">
-                <i class="fs-4 bi-people"></i> <span class="ms-1 d-none d-sm-inline">Customers</span> </a>
-            </li>
-        </ul>
-        <hr>
+        </li>
+        <li class="nav-item mb-1">
+            <a href="{% url 'dashboard:home' %}"  {% if request.path == '/dashboard/' %}class="active"{% endif %}>
+                <i class="fa-regular fa-newspaper"></i>
+                Dashboard
+            </a>
+        </li>
+        <li class="nav-item mb-1">
+            <a href="{% url 'dashboard:profile' %}"  {% if request.path == '/dashboard/profile' %}class="active"{% endif %}>
+                <i class="fa-regular fa-user"></i>
+                Profile
+            </a>
+        </li>
+
+        <li class="nav-item mb-1">
+            <a href="{% url 'dashboard:dev-api' %}"  {% if request.path == '/dashboard/dev-api' %}class="active"{% endif %}>
+                <i class="fa-regular fa-bookmark"></i>
+                Developer API
+                <!-- <span class="notification-badge">5</span> -->
+            </a>
+        </li>
+
+        <li class="nav-item mb-1">
+            <a href="{% url 'dashboard:payment' %}"  {% if request.path == '/dashboard/payment' %}class="active"{% endif %}>
+                <i class="fa-solid fa-archway"></i>
+                Payment
+            </a>
+        </li>
+        <li class="sidebar-item nav-item mb-1">
+            <a href="{% url 'dashboard:settings' %}" class="sidebar-link collapsed {% if request.path == '/dashboard/settings' %}active{% endif %} data-bs-toggle="collapse" data-bs-target="#settings"  
+                aria-expanded="false" aria-controls="settings">
+                <i class="fas fa-cog pe-2"></i>
+                <span class="topic">Settings </span>
+            </a>
+
+        </li>
+        <li class="nav-item mb-1">
+            <a href="{% url 'user:logout' %}">
+                <i class="fa-solid fa-sign-out-alt"></i>
+                Logout
+            </a>
+        </li>
+    </ul>
+    <hr />
+    <div class="d-flex">
+        <i class="fa-solid fa-book me-2"></i>
+        <span>
+            <h6 class="mt-1 mb-0">Custkeep Client Portal</h6>
+        </span>
     </div>
 </div>

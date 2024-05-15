@@ -1,0 +1,126 @@
+{% extends 'dashboard/partials/base.html' %}
+{% block title %}Dev API{% endblock %}
+{% load static %}
+
+{% block content %}
+<div class="row">
+    <div class="container-fluid mt-5">
+        <div class="row">
+            <h2>API Endpoints</h2>
+            <div class="col-md-6 documentation">
+                <h3 id="single_prediction">1. Single Prediction</h3>
+                <p class="p-4 text-muted">
+                    The Single Prediction endpoint allows you to predict the likelihood of churn for an individual
+                    customer. By submitting detailed customer data, the API analyzes their behavior and returns a churn
+                    probability score. This feature is ideal for real-time analysis of specific customers, helping you
+                    take immediate action to retain them.</p>
+                <p class="p-4 text-muted">
+                    <a class="find-more" href="{% url 'client:documentation' %}#single_prediction">Find more on the
+                        documentation</a>
+                </p>
+
+            </div>
+            <!-- Content Section -->
+            <div class="col-md-6 documentation">
+                <section id="api_endpoints" class="my-1">
+                    <!-- API Endpoints -->
+                    <!-- Single Prediction -->
+                    <p><strong>Endpoint:</strong> <code>POST http://localhost:8000/api/predict/</code></p>
+                    <p><strong>Header:</strong></p>
+                    <pre><code class="hljs">Content-Type: application/json
+Authorization: Token {{ api_token }}
+
+{
+    "customer_id": "50001",
+    "tenure": 18.0,
+    "preferred_login_device": "Mobile",
+    "city_tier": 1,
+    "warehouse_to_home": 6.0,
+    "preferred_payment_mode": "Debit Card",
+    "gender": "Female",
+    "hour_spent_on_app": 9.0,
+    "number_of_device_registered": 8,
+    "prefered_order_cat": "Laptop & Accessory",
+    "satisfaction_score": 2,
+    "marital_status": "Single",
+    "number_of_address": 19,
+    "complain":0,
+    "order_amount_hike_from_last_year": 11.0,
+    "coupon_used": 0.0,
+    "order_count": 9.0,
+    "day_since_last_order": 1.0,
+    "cashback_amount": 2500
+}</code></pre>
+                </section>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 documentation">
+                <!-- Bulk Prediction -->
+                <h3 id="bulk_prediction">2. Bulk Prediction</h3>
+                <p class="p-4 text-muted">The Bulk Prediction endpoint enables you to predict churn probabilities for a
+                    batch of customers simultaneously. By sending an array of customer data, the API processes multiple
+                    records at once and returns a list of churn probabilities. This feature is particularly useful for
+                    analyzing customer segments and planning targeted retention strategies efficiently.</p>
+                <a class="find-more" href="{% url 'client:documentation' %}#bulk_prediction">Find more on the
+                    documentation</a>
+            </div>
+            <div class="col-md-6 documentation">
+                <p><strong>Endpoint:</strong> <code>POST http://localhost:8000/api/bulk-predict/</code></p>
+                <p><strong>Header:</strong></p>
+
+                <pre><code class="hljs">Content-Type: application/json
+Authorization: Token {{ api_token }}
+
+[ {
+    "customer_id": "50001",
+    "tenure": 18.0,
+    "preferred_login_device": "Mobile",
+    "city_tier": 1,
+    "warehouse_to_home": 6.0,
+    "preferred_payment_mode": "Debit Card",
+    "gender": "Female",
+    "hour_spent_on_app": 9.0,
+    "number_of_device_registered": 8,
+    "prefered_order_cat": "Laptop & Accessory",
+    "satisfaction_score": 2,
+    "marital_status": "Single",
+    "number_of_address": 19,
+    "complain":0,
+    "order_amount_hike_from_last_year": 11.0,
+    "coupon_used": 0.0,
+    "order_count": 9.0,
+    "day_since_last_order": 1.0,
+    "cashback_amount": 2500
+},
+{
+    "customer_id": "50001",
+    "tenure": 18.0,
+    "preferred_login_device": "Mobile",
+    "city_tier": 1,
+    "warehouse_to_home": 6.0,
+    "preferred_payment_mode": "Debit Card",
+    "gender": "Female",
+    "hour_spent_on_app": 9.0,
+    "number_of_device_registered": 8,
+    "prefered_order_cat": "Laptop & Accessory",
+    "satisfaction_score": 2,
+    "marital_status": "Single",
+    "number_of_address": 19,
+    "complain":0,
+    "order_amount_hike_from_last_year": 11.0,
+    "coupon_used": 0.0,
+    "order_count": 9.0,
+    "day_since_last_order": 1.0,
+    "cashback_amount": 2500
+}]
+</code></pre>
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+{% endblock %}

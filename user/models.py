@@ -38,7 +38,7 @@ class MyUser(AbstractBaseUser):
     is_superuser = models.BooleanField(default=False)
     name = models.CharField(max_length=25)
     phone = models.CharField(max_length=10, null=False, blank=False)
-
+    balance = models.FloatField(default=0.00)
     USERNAME_FIELD = 'email'
 
     REQUIRED_FIELDS = []

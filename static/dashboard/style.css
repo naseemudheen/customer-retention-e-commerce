@@ -1,53 +1,63 @@
-/* Sidebar Styles */
-.sidebar {
-    background-color: #1E2125; /* Very dark gray for a sleek look */
-    color: #E4E6EB; /* Light gray for text, ensuring good readability */
+html, body {
+    font-family: 'Ubuntu', sans-serif;
 }
 
-.sidebar .nav-link {
-    color: #E4E6EB; /* Maintains light gray text */
+.gfg {
+    height: 50px;
+    width: 50px;
+
 }
 
-.sidebar .nav-link:hover, .sidebar .nav-link:focus {
-    background-color: #343A40; /* Slightly lighter gray for hover */
-    color: #FFFFFF; /* White text for high contrast on hover */
+.mynav {
+    color: #fff;
 }
 
-.sidebar .active {
-    background-color: #007BFF; /* Bootstrap primary blue for active state */
-    color: #FFFFFF; /* White text for contrast */
+.mynav li a {
+    color: #fff;
+    text-decoration: none;
+    width: 100%;
+    display: block;
+    border-radius: 5px;
+    padding: 8px 5px;
 }
 
-/* Navbar Styles */
-.navbar-custom {
-    background-color: #F8F9FA; /* Light gray background, clean and modern */
-    color: #6C757D; /* Medium gray, soft on the eyes */
+.mynav li a.active {
+    background: rgba(255, 255, 255, 0.2);
 }
 
-.navbar-custom .navbar-nav .nav-link {
-    color: #6C757D; /* Medium gray for links */
+.mynav li a:hover {
+    background: rgba(255, 255, 255, 0.2);
 }
 
-.navbar-custom .navbar-nav .nav-link:hover,
-.navbar-custom .navbar-nav .nav-link:focus {
-    color: #0056B3; /* Bright blue, provides a pop of color for interaction */
-    background-color: transparent; /* No change in background on hover */
+.mynav li a i {
+    width: 25px;
+    text-align: center;
 }
 
-.navbar-custom .navbar-brand {
-    color: #6C757D; /* Consistent with other text */
+.notification-badge {
+    background-color: rgba(255, 255, 255, 0.7);
+    float: right;
+    color: #222;
+    font-size: 14px;
+    padding: 0px 8px;
+    border-radius: 2px;
+}
+.payment{
+    align-items: center;
+    padding: 1rem;
+    background-color: rgb(62 62 62);
+    width:100%;
+    margin-bottom: 1rem;
+}
+.find-more {
+    color: #505050; /* Custom color */
+    text-decoration: none; /* Remove underline */
 }
 
-.navbar-custom .navbar-brand:hover,
-.navbar-custom .navbar-brand:focus {
-    color: #0056B3; /* Bright blue for emphasis on hover */
+.find-more:hover {
+    color: #C70039; /* Custom hover color */
+    text-decoration: underline; /* Add underline on hover */
 }
-
-.navbar-custom .dropdown-menu {
-    background-color: #F8F9FA; /* Light gray matching the navbar */
-}
-
-.navbar-custom .dropdown-item:hover,
-.navbar-custom .dropdown-item:focus {
-    background-color: #E2E6EA; /* Very light gray for hover on dropdown items */
+#bdSidebar{
+    min-height:46.4rem
 }

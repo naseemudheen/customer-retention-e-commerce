@@ -1,28 +1,6 @@
+{% extends 'client/base.html' %}
 {% load static %}
-
-<!doctype html>
-<html lang="en">
-  <head>
-
-    <title>
-      {% block title %}
-      {% endblock title%}
-    </title>
-
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet">
-
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-	
-    <!-- Style -->
-    <link rel="stylesheet" href="{% static 'LoginUI/css/style.css' %} ">
-    <link rel="stylesheet" href="{% static 'LoginUI/css/custom.css' %} ">
-
-    <title>Login #9</title>
-  </head>
-  <body>
+{% block content %}
     <section class="ftco-section">
       <div class="container">
         <div class="row justify-content-center">
@@ -59,16 +37,13 @@
 
             </div>
             <!-- Main Content -->
-            {% block content %} 
+            {% block authcontent %} 
             
             {% endblock %}
           </div>
         </div>
       </div>
     </section>
-    <script src="{% static 'LoginUI/js/jquery.min.js' %}"></script>
-    <script src="{% static 'LoginUI/js/popper.js' %}"></script>
-    <script src="{% static 'LoginUI/js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'LoginUI/js/main.js' %}"></script>
-  </body>
-</html>
+
+
+{% endblock %}
