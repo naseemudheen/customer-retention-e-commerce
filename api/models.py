@@ -1,11 +1,12 @@
 # api/models.py
 from django.db import models
 
+from user.models import MyUser
+
 class CustomerPrediction(models.Model):
     # Defining categorical choices
     LOGIN_DEVICE_CHOICES = [
-        ('Mobile Phone', 'Mobile Phone'),
-        ('Phone', 'Phone'),
+        ('Mobile', 'Mobile'),
         ('Computer', 'Computer')
     ]
 
@@ -24,7 +25,6 @@ class CustomerPrediction(models.Model):
 
     ORDER_CAT_CHOICES = [
         ('Laptop & Accessory', 'Laptop & Accessory'),
-        ('Mobile Phone', 'Mobile Phone'),
         ('Fashion', 'Fashion'),
         ('Mobile', 'Mobile'),
         ('Others', 'Others'),
@@ -38,7 +38,10 @@ class CustomerPrediction(models.Model):
     ]
 
     # Defining the model fields
-    customer_id = models.IntegerField()
+    user = models.ForeignKey(
+        MyUser, on_delete=models.PROTECT, related_name="customer_prediction"
+    )
+    customer_id = models.CharField(max_length=50)
     churn = models.IntegerField(null=True, blank=True)
     tenure = models.FloatField()
     preferred_login_device = models.CharField(max_length=50, choices=LOGIN_DEVICE_CHOICES)
@@ -58,8 +61,8 @@ class CustomerPrediction(models.Model):
     order_count = models.FloatField()
     day_since_last_order = models.FloatField()
     cashback_amount = models.IntegerField()
-    predicted_churn_risk = models.CharField(max_length=20)
-    predicted_churn_probability = models.DecimalField(max_digits=5, decimal_places=4)
+    predicted_churn_risk = models.CharField(max_length=20,null=True,blank=True)
+    predicted_churn_probability = models.DecimalField(max_digits=5, decimal_places=4,null=True,blank=True)
     current_date = models.DateField()
     created_at = models.DateTimeField(auto_now_add=True)
 

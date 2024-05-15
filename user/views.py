@@ -15,7 +15,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 
 class LoginPageView(View):
     form_class = UserAuthenticationForm
-    template_name = 'user/login.html'
+    template_name = 'auth/login.html'
     
     def get(self,request):
         return render(request,self.template_name,{'form':self.form_class})
@@ -30,7 +30,10 @@ class LoginPageView(View):
             if user is not None:
                 # return render(request,'dashboard/index.html')
                 login(request, user)
-                return redirect("/")
+                if user.is_superuser:
+                    return redirect("/dashboard/")
+                else:
+                    return redirect("/")
             else:
                 messages.warning(request,f'Invalid Email/Password')
                 return redirect('user:login')
@@ -40,7 +43,7 @@ class LoginPageView(View):
 
 
 class LogoutPageView(View):
-    template_name = 'user/logout.html'
+    template_name = 'auth/logout.html'
 
     def get(self,request):
         logout(request)
@@ -50,7 +53,7 @@ class LogoutPageView(View):
 
 class RegisterPageView(View):
     form_class = UserRegistrationForm
-    template_name = 'user/register.html'
+    template_name = 'auth/register.html'
 
     def get(self,request):
         user = request.user
@@ -88,9 +91,9 @@ class HomePageView(LoginRequiredMixin,View):
 
 
 class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
-    template_name = 'user/password_reset.html'
-    email_template_name = 'user/password_reset_email.html'
-    subject_template_name = 'user/password_reset_subject'
+    template_name = 'auth/password_reset.html'
+    email_template_name = 'auth/password_reset_email.html'
+    subject_template_name = 'auth/password_reset_subject'
     success_message = "We've emailed you instructions for setting your password, " \
                       "if an account exists with the email you entered. You should receive them shortly." \
                       " If you don't receive an email, " \

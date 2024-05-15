@@ -31,7 +31,35 @@ ALLOWED_HOSTS = ["139.59.87.31", "localhost", "*"]
 
 AUTH_USER_MODEL = "user.MyUser"
 # Application definition
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
 
+# CORS_ORIGIN_ALLOW_ALL = False
+# CORS_ORIGIN_WHITELIST = (
+#   'http://localhost:8000',
+# )
+
+# CSRF_TRUSTED_ORIGINS = ['https://example.com']
+CORS_ALLOW_HEADERS = [
+    "accept",
+    "accept-encoding",
+    "authorization",
+    "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+]
+
+CORS_ALLOW_METHODS = [
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+]
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -39,11 +67,16 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # internal apps
     "user",
+    "api",
+    "dashboard",
+    "client",
+    # external app
     # 'pwa',
     "corsheaders",
     "rest_framework",
-    'api'
+    "rest_framework.authtoken",
 ]
 
 MIDDLEWARE = [
@@ -63,7 +96,7 @@ ROOT_URLCONF = "authentication.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": ["templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [

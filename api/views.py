@@ -13,85 +13,91 @@ import pandas as pd
 from datetime import date
 from .models import CustomerPrediction
 from .serializers import CustomerPredictionSerializer
+from rest_framework.views import APIView
+
+# loading the model
+model_path = os.path.join(settings.BASE_DIR, "api/churn_cust_model.pkl")
+with open(model_path, "rb") as file:
+    model = pickle.load(file)
 
 def churn_risk(prob):
-    return np.where(prob < 1/3, 'LowRisk',
-            np.where(prob < 2/3, 'ModerateRisk',
-            np.where(prob <= 1, 'HighRisk', np.nan)))
-
-@api_view(['GET'])
-def predict(request):
-    # Load your model
-    model_path = os.path.join(settings.BASE_DIR, 'api/model.pkl')
-    with open(model_path, 'rb') as file:
-        model = pickle.load(file)
-
-    # Load the prepared data
-    data_path = os.path.join(settings.BASE_DIR, 'api/churn_prepared.csv')
-    result_3 = pd.read_csv(data_path)
+    return np.where(
+        prob < 1 / 3,
+        "LowRisk",
+        np.where(prob < 2 / 3, "ModerateRisk", np.where(prob <= 1, "HighRisk", np.nan)),
+    )
 
 
-
-    # Predict probabilities
-    predprob = model.predict_proba(result_3.drop(['Churn', 'CustomerID'], axis=1))
-
-    data = {
-        'CustomerID': result_3.CustomerID,
-        'Churn': result_3.Churn,
-        'Tenure': result_3.Tenure,
-        'PreferredLoginDevice': result_3.PreferredLoginDevice,
-        'CityTier': result_3.CityTier,
-        'WarehouseToHome': result_3.WarehouseToHome,
-        'PreferredPaymentMode': result_3.PreferredPaymentMode,
-        'Gender': result_3.Gender,
-        'HourSpendOnApp': result_3.HourSpendOnApp,
-        'NumberOfDeviceRegistered': result_3.NumberOfDeviceRegistered,
-        'PreferedOrderCat': result_3.PreferedOrderCat,
-        'SatisfactionScore': result_3.SatisfactionScore,
-        'MaritalStatus': result_3.MaritalStatus,
-        'NumberOfAddress': result_3.NumberOfAddress,
-        'Complain': result_3.Complain,
-        'OrderAmountHikeFromlastYear': result_3.OrderAmountHikeFromlastYear,
-        'CouponUsed': result_3.CouponUsed,
-        'OrderCount': result_3.OrderCount,
-        'DaySinceLastOrder': result_3.DaySinceLastOrder,
-        'CashbackAmount': result_3.CashbackAmount,
-        'PredictedChurnRisk': churn_risk(predprob[:, 1]),
-        'PredictedChurnProbability': predprob[:, 1],
-        'CurrentDate': date.isoformat(date.today())
+def transform_data(data):
+    return {
+        "Tenure": [data["tenure"]],
+        "CityTier": [data["city_tier"]],
+        "WarehouseToHome": [data["warehouse_to_home"]],
+        "HourSpendOnApp": [data["hour_spent_on_app"]],
+        "NumberOfDeviceRegistered": [data["number_of_device_registered"]],
+        "SatisfactionScore": [data["satisfaction_score"]],
+        "NumberOfAddress": [data["number_of_address"]],
+        "Complain": [data["complain"]],
+        "OrderAmountHikeFromlastYear": [data["order_amount_hike_from_last_year"]],
+        "CouponUsed": [data["coupon_used"]],
+        "OrderCount": [data["order_count"]],
+        "DaySinceLastOrder": [data["day_since_last_order"]],
+        "CashbackAmount": [data["cashback_amount"]],
+        "PreferredLoginDevice_Computer": [
+            1 if data["preferred_login_device"] == "Computer" else 0
+        ],
+        "PreferredLoginDevice_Mobile": [
+            1 if data["preferred_login_device"] == "Mobile" else 0
+        ],
+        "PreferredPaymentMode_COD": [
+            1 if data["preferred_payment_mode"] == "COD" else 0
+        ],
+        "PreferredPaymentMode_Credit Card": [
+            1 if data["preferred_payment_mode"] == "Credit Card" else 0
+        ],
+        "PreferredPaymentMode_Debit Card": [
+            1 if data["preferred_payment_mode"] == "Debit Card" else 0
+        ],
+        "PreferredPaymentMode_E wallet": [
+            1 if data["preferred_payment_mode"] == "E wallet" else 0
+        ],
+        "PreferredPaymentMode_UPI": [
+            1 if data["preferred_payment_mode"] == "UPI" else 0
+        ],
+        "Gender_Female": [1 if data["gender"] == "Female" else 0],
+        "Gender_Male": [1 if data["gender"] == "Male" else 0],
+        "PreferedOrderCat_Fashion": [
+            1 if data["prefered_order_cat"] == "Fashion" else 0
+        ],
+        "PreferedOrderCat_Grocery": [
+            1 if data["prefered_order_cat"] == "Grocery" else 0
+        ],
+        "PreferedOrderCat_Laptop & Accessory": [
+            1 if data["prefered_order_cat"] == "Laptop & Accessory" else 0
+        ],
+        "PreferedOrderCat_Mobile": [1 if data["prefered_order_cat"] == "Mobile" else 0],
+        "PreferedOrderCat_Others": [1 if data["prefered_order_cat"] == "Others" else 0],
+        "MaritalStatus_Divorced": [1 if data["marital_status"] == "Divorced" else 0],
+        "MaritalStatus_Married": [1 if data["marital_status"] == "Married" else 0],
+        "MaritalStatus_Single": [1 if data["marital_status"] == "Single" else 0],
     }
-    pred_addr_g = pd.DataFrame(data=data)
-    pred_addr_g_sort = pred_addr_g.sort_values(by='PredictedChurnProbability', ascending=False)
 
-    predictions = []
 
-    for _, row in pred_addr_g_sort.iterrows():
-        customer_prediction = CustomerPrediction(
-            customer_id=row['CustomerID'],
-            churn=row['Churn'],
-            tenure=row['Tenure'],
-            preferred_login_device=row['PreferredLoginDevice'],
-            city_tier=row['CityTier'],
-            warehouse_to_home=row['WarehouseToHome'],
-            preferred_payment_mode=row['PreferredPaymentMode'],
-            gender=row['Gender'],
-            hour_spent_on_app=row['HourSpendOnApp'],
-            number_of_device_registered=row['NumberOfDeviceRegistered'],
-            prefered_order_cat=row['PreferedOrderCat'],
-            satisfaction_score=row['SatisfactionScore'],
-            marital_status=row['MaritalStatus'],
-            number_of_address=row['NumberOfAddress'],
-            complain=row['Complain'],
-            order_amount_hike_from_last_year=row['OrderAmountHikeFromlastYear'],
-            coupon_used=row['CouponUsed'],
-            order_count=row['OrderCount'],
-            day_since_last_order=row['DaySinceLastOrder'],
-            cashback_amount=row['CashbackAmount'],
-            predicted_churn_risk=row['PredictedChurnRisk'],
-            predicted_churn_probability=row['PredictedChurnProbability'],
-            current_date=row['CurrentDate']
-        )
-        customer_prediction.save()
-        predictions.append(CustomerPredictionSerializer(customer_prediction).data)
+class PredictView(APIView):
+    def post(self, request):
+        for data in request.data:
+            serializer = CustomerPredictionSerializer(data=data)
+            serializer.is_valid(raise_exception=True)
+            customer_prediction = serializer.save(
+                current_date=date.isoformat(date.today()), user=request.user
+            )
+            model_input = transform_data(data)
 
-    return Response(predictions, status=status.HTTP_200_OK)
+            # Convert dictionary to DataFrame
+            model_input_df = pd.DataFrame(model_input)
+            predprob = model.predict_proba(model_input_df)
+
+            customer_prediction.predicted_churn_risk = churn_risk(predprob[0, 1])
+            customer_prediction.predicted_churn_probability = predprob[0, 1]
+            customer_prediction.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)

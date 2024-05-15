@@ -36,6 +36,8 @@ class MyUser(AbstractBaseUser):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
+    name = models.CharField(max_length=25)
+    phone = models.CharField(max_length=10, null=False, blank=False)
 
     USERNAME_FIELD = 'email'
 
@@ -44,7 +46,7 @@ class MyUser(AbstractBaseUser):
 
 
     def __str__(self):
-        return str(self.email)
+        return str(self.name)
 
     def has_perm(self,perm,obj=None):
         return self.is_admin

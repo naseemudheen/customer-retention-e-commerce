@@ -13,7 +13,7 @@ def churn_risk(prob):
 
 def predict():
     # Load your model
-    model_path = os.path.join(settings.BASE_DIR, 'api/model.pkl')
+    model_path = os.path.join(settings.BASE_DIR, 'api/churn_cust_model.pkl')
     with open(model_path, 'rb') as file:
         model = pickle.load(file)
 
