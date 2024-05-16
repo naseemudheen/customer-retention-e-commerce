@@ -1,4 +1,4 @@
-{% load static %} 
+{% load static %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -14,8 +14,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/atom-one-dark.min.css">
-
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/atom-one-dark.min.css">
+    <!-- MDB -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.2.0/mdb.min.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -31,27 +33,48 @@
                 <span class="ms-3">GFG Portal</span>
             </div>
             <div class="p-4">
-                <nav style="--bs-breadcrumb-divider: '>'; font-size: 14px">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item">
-                            <a href="{% url 'dashboard:home' %}">         
-                                <i class="fa-solid fa-house"></i>
-                            </a>
-                        </li>
-                        <li class="breadcrumb-item">Learning Content</li>
-                        <li class="breadcrumb-item">Next Page</li>
-                    </ol>
-                </nav>
+                <div class="row">
+                    <div class="col">
+                        <nav style="--bs-breadcrumb-divider: '>'; font-size: 14px">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item">
+                                    <a href="{% url 'dashboard:home' %}">
+                                        <i class="fa-solid fa-house"></i>
+                                    </a>
+                                </li>
+                                <li class="breadcrumb-item">Learning Content</li>
+                                <li class="breadcrumb-item">Next Page</li>
+                            </ol>
+                        </nav>
+                    </div>
+                    <div class="col">
+                        {% for message in messages %}
+                        <div class="alert alert-info alert-dismissible fade show" role="alert">
+                            <strong>{{ message }}</strong><a href="{% url 'dashboard:profile' %}">view your profile.</a>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
 
                 <hr />
-            {%block content %}
-            
-            {% endblock %}
-                
+                {%block content %}
+
+                {% endblock %}
+
+
             </div>
         </div>
-    </div>
-<script>hljs.highlightAll();</script>
+        <!-- MDB -->
+        <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.2.0/mdb.umd.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        {% block scripts %}
+
+        {% endblock %}
 
 </body>
 

@@ -77,6 +77,8 @@ INSTALLED_APPS = [
     "corsheaders",
     "rest_framework",
     "rest_framework.authtoken",
+    "crispy_forms",
+
 ]
 
 MIDDLEWARE = [
@@ -162,7 +164,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Asia/Dhaka"
 
 USE_I18N = True
 
@@ -246,3 +248,5 @@ EMAIL_HOST_USER = "mail.tefora@gmail.com"
 EMAIL_HOST_PASSWORD = "dveryxsoqhqhxpde"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+# Crispy Form Pack - Bootstrap 4
+CRISPY_TEMPLATE_PACK = "bootstrap4"

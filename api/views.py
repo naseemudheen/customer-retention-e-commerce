@@ -1,8 +1,10 @@
+from decimal import Decimal
 from django.shortcuts import render
 
 # Create your views here.
 # api/views.py
 from django.conf import settings
+from client.models import PaymentTransaction
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
@@ -19,6 +21,7 @@ from rest_framework.views import APIView
 model_path = os.path.join(settings.BASE_DIR, "api/churn_cust_model.pkl")
 with open(model_path, "rb") as file:
     model = pickle.load(file)
+
 
 def churn_risk(prob):
     return np.where(
@@ -83,13 +86,32 @@ def transform_data(data):
     }
 
 
+def debit_transaction(user,amount=0.50):
+    PaymentTransaction.objects.create(
+        type="debit", amount=amount, description="debited for using api ", user=user
+    )
+    user.balance -= Decimal(0.50)
+    user.save()
+
+
 class PredictView(APIView):
     def post(self, request):
         serializer = CustomerPredictionSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+        user = request.user
+        cost_per_prediction = Decimal(0.50)
+
+        # Check if the user's balance is sufficient
+        if user.balance < cost_per_prediction:
+            return Response(
+                {"error": "Insufficient balance"},
+                status=status.HTTP_402_PAYMENT_REQUIRED,
+            )
+
         customer_prediction = serializer.save(
             current_date=date.isoformat(date.today()), user=request.user
         )
+
         model_input = transform_data(request.data)
 
         # Convert dictionary to DataFrame
@@ -99,16 +121,28 @@ class PredictView(APIView):
         customer_prediction.predicted_churn_risk = churn_risk(predprob[0, 1])
         customer_prediction.predicted_churn_probability = predprob[0, 1]
         customer_prediction.save()
+        debit_transaction(user)
+
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class BulkPredictView(APIView):
     def post(self, request):
+        user = request.user
+        cost_for_prediction = Decimal(0.50) * len(request.data)
+        print(user)
+
+        # Check if the user's balance is sufficient
+        if user.balance < cost_for_prediction:
+            return Response(
+                {"error": "Insufficient balance"},
+                status=status.HTTP_402_PAYMENT_REQUIRED,
+            )
         for data in request.data:
             serializer = CustomerPredictionSerializer(data=data)
             serializer.is_valid(raise_exception=True)
             customer_prediction = serializer.save(
-                current_date=date.isoformat(date.today()), user=request.user
+                current_date=date.isoformat(date.today()), user=user
             )
             model_input = transform_data(data)
 
@@ -119,4 +153,6 @@ class BulkPredictView(APIView):
             customer_prediction.predicted_churn_risk = churn_risk(predprob[0, 1])
             customer_prediction.predicted_churn_probability = predprob[0, 1]
             customer_prediction.save()
+        debit_transaction(user,cost_for_prediction)
+
         return Response(serializer.data, status=status.HTTP_200_OK)

@@ -1,10 +1,44 @@
-{% extends 'dashboard/partials/base.html' %} 
-{% block title %}Settings{% endblock %} 
-
+{% extends 'dashboard/partials/base.html' %}
+{% block title %}Settings{% endblock%}
+{% load crispy_forms_tags %}
 {%block content %}
-    <div class="row">
-        <div class="col">
-            <p>Settings page</p>
+<div class="row">
+    <h3>Profiles</h3>
+    <div class="col m-5 bg-white p-3">
+        <!-- Tabs navs -->
+        <ul class="nav nav-tabs mb-3" id="ex1" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a data-mdb-tab-init class="nav-link active" id="ex1-tab-1" href="#ex1-tabs-1" role="tab"
+                    aria-controls="ex1-tabs-1" aria-selected="true">Change password</a>
+            </li>
+            <!-- <li class="nav-item" role="presentation">
+                <a data-mdb-tab-init class="nav-link" id="ex1-tab-2" href="#ex1-tabs-2" role="tab"
+                    aria-controls="ex1-tabs-2" aria-selected="false">Change password</a>
+            </li> -->
+        </ul>
+        <!-- Tabs navs -->
+
+        <!-- Tabs content -->
+        <div class="tab-content" id="ex1-content">
+            <div class="tab-pane fade show active" id="ex1-tabs-1" role="tabpanel" aria-labelledby="ex1-tab-1">
+                <div class="py-2">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <div class="py-2">
+                            {{form|crispy}}
+                            <div class="py-3 pb-4 border-bottom">
+                                <button type="submit" class="btn btn-primary mr-3">Change Password</button>
+
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- <div class="tab-pane fade" id="ex1-tabs-2" role="tabpanel" aria-labelledby="ex1-tab-2">
+
+            </div> -->
         </div>
     </div>
-{% endblock %}
+    {% endblock %}
+</div>

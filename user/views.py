@@ -2,6 +2,8 @@ from django.http.response import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render,redirect
 from django.views import View
 
+from client.models import PaymentTransaction
+
 # from django.auth.models import User
 from .forms import UserAuthenticationForm,UserRegistrationForm
 from django.contrib.auth import authenticate,login, logout
@@ -71,7 +73,10 @@ class RegisterPageView(View):
                 messages.warning(request,f'Email Already exists.')
             else:
                 if form.is_valid():
-                    form.save()
+                    user = form.save()
+                    user.balance = 50
+                    user.save()
+                    PaymentTransaction.objects.create(type="credit",amount=50.00,description="weolcome bonus credited",user=user)
                     messages.success(request,f'Your Account has been created you can Login now!')
                 else:
                     messages.warning(request,form.errors)
