@@ -57,3 +57,6 @@ class MyUser(AbstractBaseUser):
         return True
     
 
+    def get_all_permissions(self):
+        return True
+    

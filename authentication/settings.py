@@ -61,6 +61,7 @@ CORS_ALLOW_METHODS = [
     "PUT",
 ]
 INSTALLED_APPS = [
+
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
