@@ -11,10 +11,6 @@ The E-commerce Churn Detection API leverages cutting-edge machine learning algor
 - **Scalable**: Supports both single and bulk predictions.
 - **Easy Integration**: Simple RESTful API that integrates with any e-commerce platform.
 
-## Pricing
-- **Individual Business**: ₹0.50 per request.
-- **Enterprise**: Contact us for customized solutions and pricing.
-
 ## Installation
 
 ### Prerequisites
