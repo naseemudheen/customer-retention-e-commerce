@@ -1,6 +1,5 @@
 # E-commerce Churn Detection API
 
-![Logo](https://yourlogo.url/logo.png)
 
 ## Overview
 The E-commerce Churn Detection API leverages cutting-edge machine learning algorithms to predict customer churn, helping e-commerce businesses retain their customers and enhance engagement. This tool is designed to be integrated seamlessly into any e-commerce platform, providing real-time insights and actionable data.
